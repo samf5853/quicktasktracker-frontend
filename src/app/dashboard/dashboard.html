@@ -1,0 +1,14 @@
+<div class="min-h-screen bg-neutral-950 p-8">
+  <h1 class="text-2xl font-semibold text-white tracking-tight mb-6">Your Tasks</h1>
+
+  <div
+    class="relative rounded-2xl p-px overflow-hidden max-w-md"
+    [style.background]="cardGlow()"
+    (mousemove)="onCardMove($event)"
+    (mouseleave)="onCardLeave()">
+    <div class="bg-neutral-900 rounded-[15px] p-6 h-full">
+      <h2 class="text-white font-medium">Finish resume tailoring</h2>
+      <p class="text-neutral-500 text-sm mt-1">Due today</p>
+    </div>
+  </div>
+</div>
