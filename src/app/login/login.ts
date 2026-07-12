@@ -1,36 +1,32 @@
-import { HttpClient } from "@angular/common/http";
 import { Component, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
-import { response } from "express";
+import { Router, RouterLink } from "@angular/router";
+import { Auth } from '../auth';
 
 @Component({
-    selector: 'app-login',
-    imports: [FormsModule],
-    templateUrl: './login.html',
-    styleUrl: 'login.scss',
+  selector: 'app-login',
+  imports: [FormsModule, RouterLink],
+  templateUrl: './login.html',
+  styleUrl: 'login.scss',
 })
+export class Login {
+  email = signal('');
+  password = signal('');
 
-export class Login{
-    email = signal('');
-    password = signal('');
+  constructor(
+    private router: Router,
+    private auth: Auth,
+  ) {}
 
-    constructor(private router: Router, private http: HttpClient){}
-
-    login(){
-      this.http.post('http://localhost8080/api/auth/login',{
-        email: this.email(),
-        password: this.password(),
-      }).subscribe({
-        next: (response)=>{
-          console.log('Logged in',response);
-          this.router.navigate(['/dashboard']);
-        },
-        error: (err)=>{
-          console.error('Login failed', err);
-        }
-      })
-
-
-    }
+  login() {
+    this.auth.login(this.email(), this.password()).subscribe({
+      next: (res) => {
+        this.auth.saveToken(res.token);
+        setTimeout(() => this.router.navigate(['/dashboard']), 400);
+      },
+      error: (err) => {
+        console.error('Login failed', err);
+      },
+    });
+  }
 }

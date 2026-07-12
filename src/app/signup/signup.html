@@ -1,0 +1,31 @@
+<div class="min-h-screen flex items-center justify-center bg-neutral-950">
+  <form (submit)="signup()" class="bg-neutral-900 border border-neutral-800 p-8 rounded-2xl shadow-2xl w-full max-w-sm space-y-5">
+    <div>
+      <h1 class="text-2xl font-semibold text-white tracking-tight">Create account</h1>
+      <p class="text-sm text-neutral-500 mt-1">Sign up for QuickTaskTracker</p>
+    </div>
+
+    @if (message()) {
+      <p class="text-sm text-violet-400">{{ message() }}</p>
+    }
+
+    <input type="text" [(ngModel)]="name" name="name" placeholder="Name"
+           class="w-full bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-500">
+    <input type="text" [(ngModel)]="username" name="username" placeholder="Username"
+           class="w-full bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-500">
+    <input type="email" [(ngModel)]="email" name="email" placeholder="Email"
+           class="w-full bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-500">
+    <input type="password" [(ngModel)]="password" name="password" placeholder="Password"
+           class="w-full bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-500">
+
+    <button type="submit"
+            class="w-full bg-violet-600 hover:bg-violet-500 text-white font-medium py-2.5 rounded-lg transition-colors">
+      Sign Up
+    </button>
+
+    <p class="text-center text-sm text-neutral-500">
+      Already have an account?
+      <a routerLink="/" class="text-violet-400 hover:underline">Log in</a>
+    </p>
+  </form>
+</div>

@@ -1,14 +1,41 @@
 <div class="min-h-screen bg-neutral-950 p-8">
-  <h1 class="text-2xl font-semibold text-white tracking-tight mb-6">Your Tasks</h1>
+  <h1 class="text-2xl font-semibold text-white tracking-tight mb-1">Your Tasks</h1>
 
-  <div
-    class="relative rounded-2xl p-px overflow-hidden max-w-md"
-    [style.background]="cardGlow()"
-    (mousemove)="onCardMove($event)"
-    (mouseleave)="onCardLeave()">
-    <div class="bg-neutral-900 rounded-[15px] p-6 h-full">
-      <h2 class="text-white font-medium">Finish resume tailoring</h2>
-      <p class="text-neutral-500 text-sm mt-1">Due today</p>
+  @if (user()) {
+    <div class="flex items-center justify-between mb-6">
+      <p class="text-neutral-500 text-sm mb-6">{{ user()!.name }} ({{ user()!.username }})</p>
+      <button (click)="logout()" class="text-sm text-neutral-500 hover:text-white transition-colors">
+        Log out
+      </button>
     </div>
+  }
+
+  <div class="grid gap-4 max-w-md">
+    @for (task of tasks(); track task.id) {
+      <div
+        class="glow-card relative rounded-2xl p-px overflow-hidden"
+        (mousemove)="onCardMove($event)"
+        (mouseleave)="onCardLeave($event)">
+        <div class="bg-neutral-900 rounded-[15px] p-6 flex items-start justify-between">
+          <div>
+            <h2
+              class="text-white font-medium"
+              [class.line-through]="task.completed"
+              [class.text-neutral-500]="task.completed">
+              {{ task.title }}
+            </h2>
+            <p class="text-neutral-500 text-sm mt-1">{{ task.description }}</p>
+            @if (task.createdAt) {
+              <p class="text-neutral-600 text-xs mt-1">{{ formatCreatedAt(task.createdAt) }}</p>
+            }
+          </div>
+          <input
+            type="checkbox"
+            [checked]="task.completed"
+            (change)="toggleComplete(task)"
+            class="w-5 h-5 accent-violet-500 mt-1">
+        </div>
+      </div>
+    }
   </div>
 </div>
