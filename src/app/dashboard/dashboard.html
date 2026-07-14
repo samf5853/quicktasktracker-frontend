@@ -1,14 +1,39 @@
 <div class="min-h-screen bg-neutral-950 p-8">
-  <h1 class="text-2xl font-semibold text-white tracking-tight mb-1">Your Tasks</h1>
-
   @if (user()) {
     <div class="flex items-center justify-between mb-6">
-      <p class="text-neutral-500 text-sm mb-6">{{ user()!.name }} ({{ user()!.username }})</p>
+      <div>
+        <h1 class="text-2xl font-semibold text-white tracking-tight">Your Tasks</h1>
+        <p class="text-neutral-500 text-sm">{{ user()!.name }} ({{ user()!.username }})</p>
+      </div>
       <button (click)="logout()" class="text-sm text-neutral-500 hover:text-white transition-colors">
         Log out
       </button>
     </div>
   }
+
+  @if (error()) {
+    <p class="text-red-400 text-sm mb-4">{{error()}}</p>
+  }
+
+  <div class="flex flex-col sm:flex-row gap-2 mb-6 max-w-md">
+    <input
+      [(ngModel)]="newTitle"
+      name="title"
+      placeholder="Task title"
+      (keydown.enter)="createTask()"
+      class="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-500">
+    <input
+      [(ngModel)]="newDescription"
+      name="description"
+      placeholder="Description"
+      (keydown.enter)="createTask()"
+      class="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-500">
+    <button
+      (click)="createTask()"
+      class="bg-violet-600 hover:bg-violet-500 text-white font-medium px-4 py-2.5 rounded-lg transition-colors">
+      Add
+    </button>
+  </div>
 
   <div class="grid gap-4 max-w-md">
     @for (task of tasks(); track task.id) {
@@ -29,11 +54,19 @@
               <p class="text-neutral-600 text-xs mt-1">{{ formatCreatedAt(task.createdAt) }}</p>
             }
           </div>
-          <input
-            type="checkbox"
-            [checked]="task.completed"
-            (change)="toggleComplete(task)"
-            class="w-5 h-5 accent-violet-500 mt-1">
+          <div class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              [checked]="task.completed"
+              (change)="toggleComplete(task)"
+              class="w-5 h-5 accent-violet-500 mt-1">
+            <button
+              (click)="deleteTask(task.id)"
+              class="text-neutral-600 hover:text-red-400 text-sm transition-colors">
+              Delete
+            </button>
+          </div>
+
         </div>
       </div>
     }
