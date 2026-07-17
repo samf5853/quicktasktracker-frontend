@@ -39,6 +39,7 @@ export class Dashboard {
   pulsingTaskId = signal<number | null>(null);
   pendingDeleteId = signal<number | null>(null);
   pendingDeleteTitle = signal('');
+  userMenuOpen= signal(false);
 
   private deleteTimeoutId: ReturnType<typeof setTimeout> | null = null;
   private swipeStartX = 0;
@@ -211,6 +212,7 @@ export class Dashboard {
   }
 
   logout() {
+    this.userMenuOpen.set(false);
     this.auth.logout();
     setTimeout(() => this.router.navigate(['/']), 500);
   }
@@ -239,5 +241,9 @@ export class Dashboard {
   undoDelete() {
     if (this.deleteTimeoutId) clearTimeout(this.deleteTimeoutId);
     this.pendingDeleteId.set(null);
+  }
+
+  toggleUserMenu(){
+    this.userMenuOpen.update(open => !open);
   }
 }
