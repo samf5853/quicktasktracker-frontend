@@ -146,7 +146,7 @@ export class Dashboard {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('Dashboard ── QuickTaskTracker');
+    this.titleService.setTitle('Dashboard ─ QuickTaskTracker');
   }
 
   loadUser() {
