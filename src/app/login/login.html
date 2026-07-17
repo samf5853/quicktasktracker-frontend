@@ -1,15 +1,22 @@
 <div class="min-h-screen flex items-center justify-center bg-neutral-950">
   <form (submit)="login()" class="bg-neutral-900 border border-neutral-800 p-8 rounded-2xl shadow-2xl w-full max-w-sm space-y-5">
-    <div>
+    <div class="flex justify-center">
+      <img src="/logo.svg" alt="QuickTaskTracker" class="h-12 w-auto">
+    </div>
+    <div class="text-center">
       <h1 class="text-2xl font-semibold text-white tracking-tight">Welcome back</h1>
       <p class="text-sm text-neutral-500 mt-1">Log in to QuickTaskTracker</p>
     </div>
 
+    @if (error()) {
+      <p class="text-red-400 text-sm">{{ error() }}</p>
+    }
+
     <input
-      type="email"
-      [(ngModel)]="email"
-      name="email"
-      placeholder="Email"
+      type="text"
+      [(ngModel)]="username"
+      name="username"
+      placeholder="Username"
       class="w-full bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-shadow">
 
     <input
@@ -24,9 +31,10 @@
       class="w-full bg-violet-600 hover:bg-violet-500 text-white font-medium py-2.5 rounded-lg transition-colors">
       Log In
     </button>
+
     <p class="text-center text-sm text-neutral-500">
-      Don't have an account?
-      <a routerLink="/signup" class="text-violet-400 hover:underline">Sign Up</a>
+      No account?
+      <a routerLink="/signup" class="text-violet-400 hover:underline">Sign up</a>
     </p>
   </form>
 </div>

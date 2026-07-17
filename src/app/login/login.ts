@@ -1,31 +1,46 @@
-import { Component, signal } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { Router, RouterLink } from "@angular/router";
+import { Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../auth';
 
 @Component({
   selector: 'app-login',
   imports: [FormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrl: 'login.scss',
+  styleUrl: './login.scss',
 })
 export class Login {
-  email = signal('');
+  username = signal('');
   password = signal('');
+  error = signal('');
 
   constructor(
     private router: Router,
     private auth: Auth,
   ) {}
 
+  private validate(): string | null {
+    if (!this.username().trim()) return 'Username is required';
+    if (!this.password()) return 'Password is required';
+    return null;
+  }
+
   login() {
-    this.auth.login(this.email(), this.password()).subscribe({
+    const validationError = this.validate();
+    if (validationError) {
+      this.error.set(validationError);
+      return;
+    }
+
+    this.auth.login(this.username().trim(), this.password()).subscribe({
       next: (res) => {
         this.auth.saveToken(res.token);
-        setTimeout(() => this.router.navigate(['/dashboard']), 400);
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        console.error('Login failed', err);
+        this.error.set(
+          err.status === 401 ? 'Invalid username or password' : 'Login failed — try again',
+        );
       },
     });
   }

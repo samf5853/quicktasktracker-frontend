@@ -1,0 +1,7 @@
+<svg width="520" height="100" viewBox="0 0 520 100" xmlns="http://www.w3.org/2000/svg">
+  <rect x="4" y="10" width="80" height="80" rx="18" fill="none" stroke="#8b5cf6" stroke-width="6"/>
+  <path d="M22 52 L38 68 L68 32" fill="none" stroke="#8b5cf6" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="100" y="63" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700">
+    <tspan fill="#f5f5f5">Quick</tspan><tspan fill="#8b5cf6">Task</tspan><tspan fill="#737373" font-weight="500">Tracker</tspan>
+  </text>
+</svg>
