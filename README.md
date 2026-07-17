@@ -1,59 +1,98 @@
-# QuicktasktrackerFrontend
+# QuickTaskTracker — Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.5.
+A task management web app built with Angular, backed by a Spring Boot REST API. This is the active frontend for QuickTaskTracker, replacing an earlier vanilla HTML/JS prototype.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- **Authentication** — signup, login, and JWT-based session handling
+- **Protected routes** — route guards prevent unauthenticated access to the dashboard and redirect logged-in users away from auth pages
+- **Task management** — create and delete tasks, synced with the backend in real time
+- **Server-side rendering (SSR)** — built with Angular's SSR support for faster initial loads and better SEO
+- **Responsive UI** — styled with Tailwind CSS
+
+## Tech Stack
+
+- [Angular](https://angular.dev/) 22
+- Tailwind CSS
+- Angular SSR (`@angular/ssr`) with an Express server
+- RxJS / Angular `HttpClient` for API communication
+
+## Backend
+
+This frontend expects the QuickTaskTracker API to be running and reachable. The backend is a separate Spring Boot project handling authentication (JWT), user management, and task CRUD:
+
+**Backend repo:** [https://github.com/samf5853/Task-Manager-API](https://github.com/samf5853/Task-Manager-API)
+
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (LTS recommended)
+- Angular CLI (`npm install -g @angular/cli`)
+- The backend API running locally or deployed (see above)
+
+### Installation
+
+```bash
+git clone https://github.com/samf5853/quicktasktracker-frontend.git
+cd quicktasktracker-frontend
+npm install
+```
+
+### Running Locally
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navigate to `http://localhost:4200/`. The app will reload automatically when you change source files.
 
-## Code scaffolding
+Make sure the backend API is running and that its URL is correctly set wherever this project reads its API base URL.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Building
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Build artifacts are output to `dist/quicktasktracker-frontend/`.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Running the SSR Server
 
 ```bash
-ng test
+npm run serve:ssr:quicktasktracker-frontend
 ```
 
-## Running end-to-end tests
+(Adjust the script name to match what's defined in `package.json` if it differs.)
 
-For end-to-end (e2e) testing, run:
+## Project Structure
 
-```bash
-ng e2e
+```
+src/
+├── app/
+│   ├── login/          # Login component
+│   ├── signup/          # Signup component
+│   ├── dashboard/       # Main task dashboard
+│   ├── guards/          # Route guards (auth, guest, root redirect)
+│   └── app.routes.ts    # Route definitions
+├── main.ts              # Client bootstrap
+├── main.server.ts        # Server bootstrap (SSR)
+└── server.ts             # Express server for SSR
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Deployment
 
-## Additional Resources
+This project is configured for deployment on Netlify. See `netlify.toml` for build and publish settings.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Roadmap
+
+Planned additions as the project grows:
+
+- Task editing and completion toggling
+- Collaborators and shared task visibility
+- Comments on tasks
+- Public/private task settings
+
+## Status
+
+Actively in development as a personal portfolio project to demonstrate full-stack development skills.
