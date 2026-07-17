@@ -1,6 +1,7 @@
 import { inject, Service, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 @Service()
 export class Auth {
@@ -9,14 +10,14 @@ export class Auth {
 
   login(username: string, password: string){
     return this.http.post<{token: string}>(
-      'http://localhost:8080/api/auth/signin',
+      `${environment.apiUrl}/api/auth/signin`,
       {username, password}
     );
   }
 
   signup(name:string, username:string, email:string,password:string){
     return this.http.post(
-      'http://localhost:8080/api/auth/signup',
+      `${environment.apiUrl}/api/auth/signup`,
       {name, username, email, password},
       {responseType: 'text'}
     );

@@ -1,8 +1,9 @@
 import { Component, computed, signal } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Auth } from '../auth';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 interface Task {
   id: number;
@@ -66,7 +67,7 @@ export class Dashboard {
     }
 
     this.http
-      .put<Task>(`http://localhost:8080/api/tasks/${task.id}`, {
+      .put<Task>(`${environment.apiUrl}/api/tasks/${task.id}`, {
         title,
         description: this.editDescription().trim(),
       })
@@ -141,19 +142,17 @@ export class Dashboard {
     this.loadTasks();
   }
 
-  private authHeaders(): HttpHeaders {
-    return new HttpHeaders().set('Authorization', `Bearer ${this.auth.getToken()}`);
-  }
+
 
   loadUser() {
-    this.http.get<User>('http://localhost:8080/api/users/me').subscribe({
+    this.http.get<User>(`${environment.apiUrl}/api/users/me`).subscribe({
       next: (res) => this.user.set(res),
       error: (err) => console.error('Failed to load user', err),
     });
   }
 
   loadTasks() {
-    this.http.get<Task[]>('http://localhost:8080/api/tasks').subscribe({
+    this.http.get<Task[]>(`${environment.apiUrl}/api/tasks`).subscribe({
       next: (data) => this.tasks.set(data),
       error: (err) => console.error('Failed to load tasks', err),
     });
@@ -167,7 +166,7 @@ export class Dashboard {
     }
 
     this.http
-      .post<Task>('http://localhost:8080/api/tasks', {
+      .post<Task>(`${environment.apiUrl}/api/tasks`, {
         title,
         description: this.newDescription().trim(),
       })
@@ -183,7 +182,7 @@ export class Dashboard {
   }
 
   deleteTask(id: number) {
-    this.http.delete(`http://localhost:8080/api/tasks/${id}`).subscribe({
+    this.http.delete(`${environment.apiUrl}/api/tasks/${id}`).subscribe({
       next: () => this.loadTasks(),
       error: () => this.error.set('Failed to delete task'),
     });
@@ -204,7 +203,7 @@ export class Dashboard {
 
   toggleComplete(task: Task) {
     this.http
-      .put<Task>(`http://localhost:8080/api/tasks/${task.id}`, { completed: !task.completed })
+      .put<Task>(`${environment.apiUrl}/api/tasks/${task.id}`, { completed: !task.completed })
       .subscribe({
         next: () => this.loadTasks(),
         error: (err) => console.error('Failed to update task', err),
