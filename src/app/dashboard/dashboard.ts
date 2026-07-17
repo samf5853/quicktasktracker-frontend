@@ -4,6 +4,7 @@ import { Auth } from '../auth';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../../environments/environment';
+import { Title } from '@angular/platform-browser';
 
 interface Task {
   id: number;
@@ -39,7 +40,7 @@ export class Dashboard {
   pulsingTaskId = signal<number | null>(null);
   pendingDeleteId = signal<number | null>(null);
   pendingDeleteTitle = signal('');
-  userMenuOpen= signal(false);
+  userMenuOpen = signal(false);
 
   private deleteTimeoutId: ReturnType<typeof setTimeout> | null = null;
   private swipeStartX = 0;
@@ -86,7 +87,7 @@ export class Dashboard {
   }
 
   onSwipeStart(e: TouchEvent, task: Task) {
-    if(this.editingTaskId() === task.id) return;
+    if (this.editingTaskId() === task.id) return;
     this.swipeStartX = e.touches[0].clientX;
     this.swipeCardWidth = (e.currentTarget as HTMLElement).getBoundingClientRect().width;
   }
@@ -138,12 +139,15 @@ export class Dashboard {
     private http: HttpClient,
     private auth: Auth,
     private router: Router,
+    private titleService: Title,
   ) {
     this.loadUser();
     this.loadTasks();
   }
 
-
+  ngOnInit() {
+    this.titleService.setTitle('Dashboard ── QuickTaskTracker');
+  }
 
   loadUser() {
     this.http.get<User>(`${environment.apiUrl}/api/users/me`).subscribe({
@@ -243,7 +247,7 @@ export class Dashboard {
     this.pendingDeleteId.set(null);
   }
 
-  toggleUserMenu(){
-    this.userMenuOpen.update(open => !open);
+  toggleUserMenu() {
+    this.userMenuOpen.update((open) => !open);
   }
 }
