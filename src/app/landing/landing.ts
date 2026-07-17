@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-landing',
@@ -8,6 +9,13 @@ import { RouterLink } from '@angular/router';
   styleUrl: './landing.scss',
 })
 export class Landing {
+
+  constructor(private titleService: Title) {
+  }
+
+  ngOnInit() {
+    this.titleService.setTitle('QuickTaskTracker');
+  }
   onCardMove(e: MouseEvent) {
     const el = e.currentTarget as HTMLElement;
     const rect = el.getBoundingClientRect();
