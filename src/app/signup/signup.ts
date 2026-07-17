@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../auth';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-signup',
@@ -19,7 +20,12 @@ export class Signup {
   constructor(
     private router: Router,
     private auth: Auth,
+    private titleService:Title,
   ) {}
+
+  ngOnInit() {
+    this.titleService.setTitle('Sign Up ─ QuickTaskTracker');
+  }
 
   private validate(): string | null {
     const name = this.name().trim();

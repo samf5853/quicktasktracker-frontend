@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../auth';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,12 @@ export class Login {
   constructor(
     private router: Router,
     private auth: Auth,
+    private titleService: Title,
   ) {}
+
+  ngOnInit() {
+    this.titleService.setTitle('Log In ─ QuickTaskTracker');
+  }
 
   private validate(): string | null {
     if (!this.username().trim()) return 'Username is required';
